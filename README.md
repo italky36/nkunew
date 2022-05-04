@@ -2,11 +2,11 @@ README.md
 =========
 Для перезапуска сайта:
 
-    docker-compose up --force-recreate --no-deps nodejs
+    docker-compose up -d --force-recreate --no-deps nodejs
 
 Для перезапуска vpn:
 
-    docker-compose up --force-recreate --no-deps wg-easy
+    docker-compose up -d --force-recreate --no-deps wg-easy
 
 Для первичной настройки:
 
