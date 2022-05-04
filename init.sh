@@ -133,3 +133,12 @@ docker run -d --restart unless-stopped \
   traefik:1.7.2-alpine
   
 docker-compose up -d
+
+echo "Firewall setup"
+ufw enable
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow http
+ufw allow https
+ufw allow 51820/udp
