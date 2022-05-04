@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: nodejs
+    restart: unless-stopped
+    labels:
+      - traefik.backend=blog
+      - traefik.frontend.rule=Host:horsekfh.ru
+      - traefik.docker.network=web
+      - traefik.port=3000
+    volumes:
+      - ./db:/home/node/app/db/
+    networks:
+      - web
+
+  wg-easy:
+    environment:
+      - WG_HOST=horsekfh.ru
+      - PASSWORD=Error456
+      - WG_PORT=51820
+      - WG_DEFAULT_ADDRESS=10.0.0.x
+      - WG_DEFAULT_DNS=1.1.1.1
+      - WG_MTU=1420
+      - WG_ALLOWED_IPS=10.0.0.0/24
+    image: weejewel/wg-easy
+    container_name: wg-easy
+    volumes:
+      - ./wireguard:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: unless-stopped
+    labels:
+      - traefik.backend=vpnsec
+      - traefik.frontend.rule=Host:vpnsec.horsekfh.ru
+      - traefik.docker.network=web
+      - traefik.port=51821
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

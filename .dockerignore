@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+Dockerfile
+ssl_renew.sh
+.dockerignore
+.git
+.gitignore

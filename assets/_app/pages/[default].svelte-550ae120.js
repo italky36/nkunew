@@ -1,0 +1,1 @@
+import{S as t,i as s,s as n}from"../chunks/vendor-aeed06d1.js";function o(){return{status:300,redirect:"/"}}class r extends t{constructor(e){super();s(this,e,null,null,n,{})}}export{r as default,o as load};
