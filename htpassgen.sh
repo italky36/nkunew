@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt update
-apt install apache2-utils
+apt install apache2-utils -y
 
 grep -v "traefikpass" .env > temp && mv temp .env
 
