@@ -79,7 +79,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.backend=blog
-      - traefik.frontend.rule=Host:$domain
+      - traefik.frontend.rule=Host:$domain,www.$domain
       - traefik.docker.network=web
       - traefik.port=3000
     volumes:
