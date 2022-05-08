@@ -56,6 +56,10 @@ entrypoint="\"dashboard\""
    [acme.httpChallenge]
    entryPoint = "\"http\""
 
+[[acme.domains]]
+  main = "\"$domain\""
+  sans = ["\"www.$domain\"", "\"vpnsec.$domain\"","\"monitor.$domain\""]   
+
 [docker]
  domain = "\"$domain\""
  watch = true
