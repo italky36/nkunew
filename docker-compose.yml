@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.backend=blog
-      - traefik.frontend.rule=Host:horsekfh.ru
+      - traefik.frontend.rule=Host:$domain,www.$domain
       - traefik.docker.network=web
       - traefik.port=3000
     volumes:
@@ -20,8 +20,8 @@ services:
 
   wg-easy:
     environment:
-      - WG_HOST=horsekfh.ru
-      - PASSWORD=Error456
+      - WG_HOST=$domain
+      - PASSWORD=$vpnpass
       - WG_PORT=51820
       - WG_DEFAULT_ADDRESS=10.0.0.x
       - WG_DEFAULT_DNS=1.1.1.1
@@ -32,12 +32,12 @@ services:
     volumes:
       - ./wireguard:/etc/wireguard
     ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
+      - "\"51820:51820/udp\""
+      - "\"51821:51821/tcp\""
     restart: unless-stopped
     labels:
       - traefik.backend=vpnsec
-      - traefik.frontend.rule=Host:vpnsec.horsekfh.ru
+      - traefik.frontend.rule=Host:vpnsec.$domain
       - traefik.docker.network=web
       - traefik.port=51821
     cap_add:

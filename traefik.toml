@@ -5,7 +5,7 @@ defaultEntryPoints = ["http", "https"]
    address = ":8080"
    [entryPoints.dashboard.auth]
      [entryPoints.dashboard.auth.basic]
-       users = ["admin:$apr1$lYggJX5b$pw4ARqgNaSB7Qmjzux8lZ/"]
+       users = ["$traefikpass"]
  [entryPoints.http]
    address = ":80"
      [entryPoints.http.redirect]
@@ -18,14 +18,18 @@ defaultEntryPoints = ["http", "https"]
 entrypoint="dashboard"
 
 [acme]
- email = "italky2mail.ru"
+ email = "$mail"
  storage = "acme.json"
  entryPoint = "https"
  onHostRule = true
    [acme.httpChallenge]
    entryPoint = "http"
 
+[[acme.domains]]
+  main = "$domain"
+  sans = ["www.$domain", "vpnsec.$domain","monitor.$domain"]
+
 [docker]
- domain = "horsekfh.ru"
+ domain = "$domain"
  watch = true
  network = "web"
