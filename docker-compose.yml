@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.backend=blog
-      - traefik.frontend.rule=Host:horsekfh.ru
+      - traefik.frontend.rule=Host:horsekfh.ru,www.horsekfh.ru
       - traefik.docker.network=web
       - traefik.port=3000
     volumes:
