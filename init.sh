@@ -18,8 +18,6 @@ chmod +x /usr/local/bin/docker-compose
 touch acme.json
 chmod 600 acme.json
 
-traefikpass=`htpasswd -nb admin $traefikpass`
-
 docker network create web
 
 docker run -d --restart unless-stopped \
