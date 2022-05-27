@@ -13,4 +13,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: docker-compose up -d --force-recreate --no-deps nodejs
+        script: |
+          cd /root/nkunew/      
+          docker-compose up -d --force-recreate --no-deps nodejs
