@@ -1,5 +1,9 @@
 README.md
 =========
+Удаление неиспользуемых образов:
+     
+     docker system prune -a
+     
 Для перезапуска сайта:
 
     docker-compose up -d --force-recreate --no-deps nodejs
