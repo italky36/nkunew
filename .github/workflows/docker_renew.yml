@@ -14,5 +14,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /root/nkunew/      
+          cd /root/
+          git clone https://github.com/italky36/nkunew.git
+          cd /root/nkunew/
           docker-compose up -d --force-recreate --no-deps nodejs
