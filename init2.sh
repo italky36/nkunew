@@ -21,7 +21,7 @@ apt-get update && apt-get upgrade -y
 
 #install docker
 echo "install docker"
-apt install docker-compose -y
+apt install docker-compose apache2-utils -y
 
 touch acme.json
 chmod 600 acme.json
