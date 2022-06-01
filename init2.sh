@@ -68,7 +68,7 @@ entrypoint="\"dashboard\""
 " > traefik.toml
 
 
-echo -en "version: '3'
+echo -en "version: '3.3'
 
 services:
   nodejs:
@@ -160,9 +160,7 @@ services:
       - traefik.port=8080
     networks:
       - web
-    depends_on:
-      - db
-
+    
 networks:
   web:
     external: false" >  docker-compose.yml
