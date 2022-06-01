@@ -174,7 +174,7 @@ services:
 
 networks:
   web:
-    external: true" >  docker-compose.yml
+    external: false" >  docker-compose.yml
   
 docker-compose up -d
 
