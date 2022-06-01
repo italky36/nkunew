@@ -27,7 +27,7 @@ entrypoint="dashboard"
 
 [[acme.domains]]
   main = "horsekfh.ru"
-  sans = ["www.horsekfh.ru", "vpnsec.horsekfh.ru","monitor.horsekfh.ru"]   
+  sans = ["www.horsekfh.ru", "vpnsec.horsekfh.ru","monitor.horsekfh.ru", "db.horsekfh.ru"]   
 
 [docker]
  domain = "horsekfh.ru"

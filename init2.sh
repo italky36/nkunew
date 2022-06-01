@@ -9,6 +9,12 @@ mail="italky2@mail.ru"
 domain="horsekfh.ru"
 #Пароль от админки VPN
 vpnpass="Error456"
+#База данных
+postgresdb="nodedb"
+#Пользователь БД
+postgresusr="pgadmin"
+#Пароль БД
+postgrespass="pgpass"
 
 apt-get update && apt-get upgrade -y
 
@@ -62,7 +68,7 @@ entrypoint="\"dashboard\""
 
 [[acme.domains]]
   main = "\"$domain\""
-  sans = ["\"www.$domain\"", "\"vpnsec.$domain\"","\"monitor.$domain\""]   
+  sans = ["\"www.$domain\"", "\"vpnsec.$domain\"","\"monitor.$domain\"","\"db.$domain\""]   
 
 [docker]
  domain = "\"$domain\""
@@ -122,23 +128,53 @@ services:
     networks:
       - web
 
+  traefik:
+    image: "traefik:1.7.2-alpine"
+    container_name: traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "$PWD/acme.json:/acme.json"
+      - "$PWD/traefik.toml:/traefik.toml"
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      - traefik.frontend.rule=Host:monitor.$domain
+      - traefik.port=8080
+    networks:
+      - web
+
+  db:
+    image: "postgres:13.7-alpine"
+    container_name: postgres
+    volumes:
+      - "$PWD/pgdata:/var/lib/postgresql/data/"
+    environment:
+      POSTGRES_DB: $postgresdb
+      POSTGRES_USER: $postgresusr
+      POSTGRES_PASSWORD: $postgrespass
+    labels:
+      - traefik.enable=false
+    networks:
+      - web
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    labels:
+      - traefik.backend=adminer
+      - traefik.frontend.rule=Host:db.$domain
+      - traefik.docker.network=web
+      - traefik.port=8080
+    networks:
+      - web
+    depends_on:
+      - db
+
 networks:
   web:
     external: true" >  docker-compose.yml
-
-docker network create web
-
-docker run -d --restart unless-stopped \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v $PWD/traefik.toml:/traefik.toml \
-  -v $PWD/acme.json:/acme.json \
-  -p 80:80 \
-  -p 443:443 \
-  -l traefik.frontend.rule=Host:monitor.$domain \
-  -l traefik.port=8080 \
-  --network web \
-  --name traefik \
-  traefik:1.7.2-alpine
   
 docker-compose up -d
 

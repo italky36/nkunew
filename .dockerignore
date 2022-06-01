@@ -5,3 +5,10 @@ ssl_renew.sh
 .dockerignore
 .git
 .gitignore
+pgdata
+traefik.toml
+docker-compos.yml
+docker-compose.yml.sample
+traefik.toml.sample
+wireguard
+acme.json

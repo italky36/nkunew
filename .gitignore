@@ -1,2 +1,6 @@
 wireguard
 acme.json
+pgdata
+traefik.toml
+docker-compos.yml
+wireguard

@@ -17,6 +17,8 @@ services:
       - ./db:/home/node/app/db/
     networks:
       - web
+    depends_on:
+      - db
 
   wg-easy:
     environment:
@@ -33,7 +35,6 @@ services:
       - ./wireguard:/etc/wireguard
     ports:
       - "51820:51820/udp"
-      - "51821:51821/tcp"
     restart: unless-stopped
     labels:
       - traefik.backend=vpnsec
@@ -49,6 +50,50 @@ services:
     networks:
       - web
 
+  traefik:
+    image: "traefik:1.7.2-alpine"
+    container_name: traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "$PWD/acme.json:/acme.json"
+      - "$PWD/traefik.toml:/traefik.toml"
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      - traefik.frontend.rule=Host:monitor.horsekfh.ru
+      - traefik.port=8080
+    networks:
+      - web
+
+  db:
+    image: "postgres:13.7-alpine"
+    container_name: postgres
+    volumes:
+      - "$PWD/pgdata:/var/lib/postgresql/data/"
+    environment:
+      POSTGRES_DB: nodedb
+      POSTGRES_USER: pgadmin
+      POSTGRES_PASSWORD: pgpass
+    labels:
+      - traefik.enable=false
+    networks:
+      - web
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    labels:
+      - traefik.backend=adminer
+      - traefik.frontend.rule=Host:db.horsekfh.ru
+      - traefik.docker.network=web
+      - traefik.port=8080
+    networks:
+      - web
+    depends_on:
+      - db
+
 networks:
   web:
-    external: true
+    external: false
