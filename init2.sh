@@ -21,16 +21,7 @@ apt-get update && apt-get upgrade -y
 
 #install docker
 echo "install docker"
-apt install apt-transport-https ca-certificates curl software-properties-common apache2-utils git -y
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-apt update
-apt install docker-ce -y
-
-#install docker-compose
-echo "install docker-compose"
-curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+apt install docker-compose -y
 
 touch acme.json
 chmod 600 acme.json
